@@ -15,6 +15,8 @@ import javax.sound.sampled.LineUnavailableException;
 import javax.sound.sampled.TargetDataLine;
 
 public class MainController {
+
+    private boolean isRecording = false;
     @FXML
     private Label welcomeText;
 
@@ -33,6 +35,7 @@ public class MainController {
         }
         // Obtain and open the line.
         try {
+            isRecording = true;
             line = (TargetDataLine) AudioSystem.getLine(info);
             line.open(format);
             
@@ -40,10 +43,11 @@ public class MainController {
             int numBytesRead;
             byte[] data = new byte[line.getBufferSize() / 5];
             line.start();
-            for (int i = 0; i < 30; i++) {
+            while(isRecording){
                 numBytesRead = line.read(data, 0, data.length);
-                System.out.println(numBytesRead);
+                System.out.println(isRecording);
                 out.write(data, 0, numBytesRead);
+                counter++;
             }
             line.close();
 
@@ -55,5 +59,11 @@ public class MainController {
         } catch(Exception e){
             e.printStackTrace();
         }
+    }
+
+    @FXML
+    protected void stopRecording(){
+        isRecording = false;
+        System.out.println("STOPPED RECORDING PRESSED");
     }
 }
