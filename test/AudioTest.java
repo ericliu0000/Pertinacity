@@ -12,7 +12,7 @@ import javax.sound.sampled.TargetDataLine;
 
 public class AudioTest {
     public static void main(String[] args) {
-        AudioFormat format = new AudioFormat(44100, 16, 1, true, true);
+        AudioFormat format = new AudioFormat(44100, 24, 2, true, true);
         
         TargetDataLine line;
         DataLine.Info info = new DataLine.Info(TargetDataLine.class, 
