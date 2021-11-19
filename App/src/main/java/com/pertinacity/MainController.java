@@ -25,35 +25,35 @@ public class MainController {
             AudioFormat format = new AudioFormat(44100, 24, 2, true, true);
         
             TargetDataLine line;
-            DataLine.Info info = new DataLine.Info(TargetDataLine.class, 
-                format); // format is an AudioFormat object
-            if (!AudioSystem.isLineSupported(info)) {
-                // Handle the error ... 
-                System.err.println("bruh");
-            }
+            DataLine.Info info = new DataLine.Info(TargetDataLine.class, format);
+
             // Obtain and open the line.
             try {
                 line = (TargetDataLine) AudioSystem.getLine(info);
                 line.open(format);
+                line.start();
                 
                 ByteArrayOutputStream out = new ByteArrayOutputStream();
-                int numBytesRead;
                 byte[] data = new byte[line.getBufferSize() / 5];
-                line.start();
-                for (int i = 0; isRecording; i++) {
+                int numBytesRead;
+
+                while (isRecording) {
                     numBytesRead = line.read(data, 0, data.length);
-                    System.out.println(numBytesRead);
+                    System.out.println(String.format("Recording..."));
                     out.write(data, 0, numBytesRead);
                 }
+
                 line.close();
     
                 AudioInputStream inputStream = new AudioInputStream(
-                    new ByteArrayInputStream(out.toByteArray()), format,
-                    out.size());
+                                    new ByteArrayInputStream(out.toByteArray()), 
+                                    format,
+                                    out.size());
+
                 AudioSystem.write(inputStream, AudioFileFormat.Type.WAVE, 
                     new java.io.File("test.wav"));
-            } catch (LineUnavailableException ex) {
-                ex.printStackTrace();
+            } catch (LineUnavailableException e) {
+                e.printStackTrace();
             } catch (IOException e) {
                 e.printStackTrace();
             }
@@ -66,19 +66,15 @@ public class MainController {
     @FXML
     protected void record() {
         isRecording = true;
-        // t.setDaemon(true);
         t.start();
     }
 
     @FXML
     protected void stopRecording() {
-     
-            isRecording = false;
+        isRecording = false;
         
         task.cancel(true);
         System.out.println(task);
         t.interrupt();
-
     }
-
 }
