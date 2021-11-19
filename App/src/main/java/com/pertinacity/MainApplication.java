@@ -1,4 +1,4 @@
-package com.pertinacity.pertinacity;
+package com.pertinacity;
 
 import javafx.application.Application;
 import javafx.fxml.FXMLLoader;

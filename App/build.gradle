@@ -23,8 +23,8 @@ tasks.withType(JavaCompile) {
 }
 
 application {
-    mainModule = 'com.pertinacity.pertinacity'
-    mainClass = 'com.pertinacity.pertinacity.MainApplication'
+    mainModule = 'com.pertinacity'
+    mainClass = 'com.pertinacity.MainApplication'
 }
 
 javafx {
