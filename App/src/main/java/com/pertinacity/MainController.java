@@ -1,4 +1,4 @@
-package com.pertinacity.pertinacity;
+package com.pertinacity;
 
 import javafx.fxml.FXML;
 import javafx.scene.control.Label;
