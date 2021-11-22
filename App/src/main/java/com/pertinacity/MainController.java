@@ -19,6 +19,8 @@ import javafx.concurrent.Task;
 public class MainController {
     boolean isRecording = false;
 
+    Label recordingIndicator = new Label();
+
     Task<Integer> task = new Task<Integer>() {
         @Override
         protected Integer call() throws Exception {
