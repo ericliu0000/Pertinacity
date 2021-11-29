@@ -13,6 +13,7 @@ import javax.sound.sampled.AudioSystem;
 import javax.sound.sampled.DataLine;
 import javax.sound.sampled.LineUnavailableException;
 import javax.sound.sampled.TargetDataLine;
+import javax.swing.event.SwingPropertyChangeSupport;
 
 import javafx.concurrent.Task;
 
@@ -23,7 +24,7 @@ public class MainController {
 
     Task<Integer> task = new Task<Integer>() {
         @Override
-        protected Integer call() throws Exception {
+        protected Integer call() {
             AudioFormat format = new AudioFormat(44100, 24, 2, true, true);
         
             TargetDataLine line;
@@ -55,28 +56,33 @@ public class MainController {
                 AudioSystem.write(inputStream, AudioFileFormat.Type.WAVE, 
                     new java.io.File("test.wav"));
             } catch (LineUnavailableException e) {
-                e.printStackTrace();
+                System.err.println("Line unavailable");
             } catch (IOException e) {
+                System.err.println("Unable to open the file");
+            } catch (Exception e) {
                 e.printStackTrace();
             }
+            System.out.println("Done");
             return 0;
         }
     };
 
-    Thread t = new Thread(task);
+    Thread t;
 
     @FXML
     protected void record() {
         isRecording = true;
+        t = new Thread(task);
         t.start();
     }
 
     @FXML
     protected void stopRecording() {
+        // if (t != null) {
         isRecording = false;
-        
-        task.cancel(true);
+            // task.cancel(true);
+            // t.interrupt();
+        // }
         System.out.println(task);
-        t.interrupt();
     }
 }
