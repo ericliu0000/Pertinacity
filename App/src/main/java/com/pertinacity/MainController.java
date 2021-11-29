@@ -2,6 +2,7 @@ package com.pertinacity;
 
 import javafx.fxml.FXML;
 import javafx.scene.control.Label;
+import javafx.stage.DirectoryChooser;
 import javafx.stage.FileChooser;
 import javafx.stage.Stage;
 
@@ -9,6 +10,7 @@ import java.io.ByteArrayInputStream;
 import java.io.ByteArrayOutputStream;
 import java.io.File;
 import java.io.IOException;
+import java.nio.file.Path;
 
 import javax.sound.sampled.AudioFileFormat;
 import javax.sound.sampled.AudioFormat;
@@ -22,6 +24,8 @@ import javafx.concurrent.Task;
 
 public class MainController {
     boolean isRecording = false;
+    String dir;
+    File file;
 
     public Label recordingIndicator = new Label();
 
@@ -57,11 +61,12 @@ public class MainController {
                         out.size());
 
                 AudioSystem.write(inputStream, AudioFileFormat.Type.WAVE,
-                        new java.io.File("test.wav"));
+                        new File(dir + "/recording.wav"));
             } catch (LineUnavailableException e) {
                 System.err.println("Line unavailable");
             } catch (IOException e) {
                 System.err.println("Unable to open the file");
+                e.printStackTrace();
             } catch (Exception e) {
                 e.printStackTrace();
             }
@@ -76,7 +81,7 @@ public class MainController {
     protected void record() {
         System.out.println("clicked");
         recordingIndicator.setText("we are now recording");
-
+        saveFile();
         isRecording = true;
         t = new Thread(task);
         System.out.println(t);
@@ -97,15 +102,15 @@ public class MainController {
         } catch(Exception e){
             e.printStackTrace();
         }
-        saveFile();
+
     }
 
     private void saveFile() {
         Stage primaryStage = (Stage) recordingIndicator.getScene().getWindow();
-        FileChooser fileChooser = new FileChooser();
-        FileChooser.ExtensionFilter extFilter = new FileChooser.ExtensionFilter("WAV files (.wav)", ".wav");
-        fileChooser.getExtensionFilters().add(extFilter);
-        File file = fileChooser.showOpenDialog(primaryStage);
-        System.out.println(file);
+        DirectoryChooser fileChooser = new DirectoryChooser();
+        // FileChooser.ExtensionFilter extFilter = new FileChooser.ExtensionFilter("WAV files (.wav)", ".wav");
+        // fileChooser.getExtensionFilters().add(extFilter);
+        dir = String.valueOf(fileChooser.showDialog(primaryStage));
+        System.out.println(dir);
     }
 }
