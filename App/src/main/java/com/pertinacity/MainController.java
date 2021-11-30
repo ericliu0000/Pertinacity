@@ -80,7 +80,7 @@ public class MainController {
     @FXML
     protected void record() {
         System.out.println("clicked");
-        recordingIndicator.setText("we are now recording");
+        recordingIndicator.setText("Recording");
         saveFile();
         isRecording = true;
         t = new Thread(task);
@@ -91,7 +91,7 @@ public class MainController {
     @FXML
     protected void stopRecording() {
         // if (t != null) {
-        recordingIndicator.setText("we ahve now finisher drorcin");
+        recordingIndicator.setText("Not Recording");
         isRecording = false;
         // task.cancel(true);
         // t.interrupt();
