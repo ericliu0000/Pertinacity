@@ -57,7 +57,6 @@ public class MainController {
         task = new Task<Integer>() {
             @Override
             protected Integer call() {
-    
                 TargetDataLine line;
                 DataLine.Info info = new DataLine.Info(TargetDataLine.class, format);
     
@@ -96,18 +95,8 @@ public class MainController {
 
     @FXML
     protected void stopRecording() {
-        recordingIndicator.setText("Not Recording");
-        isRecording = false;
-
-        // System.out.println(task);
-
-        try {
-            t.join();
-        } catch (Exception e) {
-            e.printStackTrace();
-        }
-
-        saveFile();
+        pause();
+        chooseDirectory();
 
         AudioInputStream inputStream = new AudioInputStream(
                 new ByteArrayInputStream(out.toByteArray()),
@@ -120,13 +109,27 @@ public class MainController {
         } catch (IOException e) {
             e.printStackTrace();
         }
+
+        out = new ByteArrayOutputStream();
     }
 
-    private void saveFile() {
+    @FXML
+    protected void pause() {
+        recordingIndicator.setText(String.format("Stopped, %d bytes recorded", out.size()));
+        isRecording = false;
+
+        try {
+            t.join();
+        } catch (Exception e) {
+            e.printStackTrace();
+        }
+    }
+
+    private void chooseDirectory() {
         Stage primaryStage = (Stage) recordingIndicator.getScene().getWindow();
         DirectoryChooser fileChooser = new DirectoryChooser();
 
         dir = String.valueOf(fileChooser.showDialog(primaryStage));
-        System.out.println(dir);
+        // System.out.println(dir);
     }
 }
