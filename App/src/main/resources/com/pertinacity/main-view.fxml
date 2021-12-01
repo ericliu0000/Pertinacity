@@ -22,7 +22,7 @@
          <font>
             <Font size="15.0" />
          </font></Label>
-      <TextField layoutX="48.0" layoutY="288.0" prefHeight="40.0" prefWidth="243.0" promptText="Filename" style="-fx-background-color: rgba(0,0,0,0); -fx-border-color: white; -fx-text-inner-color: white;" />
+      <TextField fx:id="fileField" layoutX="48.0" layoutY="288.0" prefHeight="40.0" prefWidth="243.0" promptText="Filename" style="-fx-background-color: rgba(0,0,0,0); -fx-border-color: white; -fx-text-inner-color: white;" />
       <Label layoutX="300.0" layoutY="296.0" text=".wav" textFill="#d3d3d3">
          <font>
             <Font size="19.0" />
