@@ -37,39 +37,7 @@ public class MainController {
     ByteArrayOutputStream out = new ByteArrayOutputStream();
     AudioFormat format = new AudioFormat(44100, 24, 2, true, true);
 
-    Task<Integer> task = new Task<Integer>() {
-        @Override
-        protected Integer call() {
-
-            TargetDataLine line;
-            DataLine.Info info = new DataLine.Info(TargetDataLine.class, format);
-
-            // Obtain and open the line.
-            try {
-                line = (TargetDataLine) AudioSystem.getLine(info);
-                line.open(format);
-                line.start();
-
-                byte[] data = new byte[line.getBufferSize() / 5];
-                int numBytesRead;
-
-                while (isRecording) {
-                    numBytesRead = line.read(data, 0, data.length);
-                    System.out.println(String.format("Recording..."));
-                    out.write(data, 0, numBytesRead);
-                }
-
-                line.close();
-            } catch (LineUnavailableException e) {
-                System.err.println("Line unavailable");
-            } catch (Exception e) {
-                e.printStackTrace();
-            }
-            System.out.println("Done");
-            return 0;
-        }
-    };
-
+    Task<Integer> task;
     Thread t;
 
     @FXML
@@ -85,6 +53,39 @@ public class MainController {
 
         fileField.clear();
         isRecording = true;
+
+        task = new Task<Integer>() {
+            @Override
+            protected Integer call() {
+    
+                TargetDataLine line;
+                DataLine.Info info = new DataLine.Info(TargetDataLine.class, format);
+    
+                // Obtain and open the line.
+                try {
+                    line = (TargetDataLine) AudioSystem.getLine(info);
+                    line.open(format);
+                    line.start();
+    
+                    byte[] data = new byte[line.getBufferSize() / 5];
+                    int numBytesRead;
+    
+                    while (isRecording) {
+                        numBytesRead = line.read(data, 0, data.length);
+                        System.out.println(String.format("Recording..."));
+                        out.write(data, 0, numBytesRead);
+                    }
+    
+                    line.close();
+                } catch (LineUnavailableException e) {
+                    System.err.println("Line unavailable");
+                } catch (Exception e) {
+                    e.printStackTrace();
+                }
+                System.out.println("Done");
+                return 0;
+            }
+        };
 
         t = new Thread(task);
         t.start();
@@ -118,7 +119,7 @@ public class MainController {
                     new File(dir + "/" + fileName + ".wav"));
         } catch (IOException e) {
             e.printStackTrace();
-        }
+        }ByteArrayOutputStream
     }
 
     private void saveFile() {
