@@ -87,8 +87,9 @@ public class MainController {
         isRecording = true;
 
         t = new Thread(task);
-        // System.out.println(t);
         t.start();
+        
+        // System.out.println(t);
 
     }
 
@@ -118,18 +119,6 @@ public class MainController {
         } catch (IOException e) {
             e.printStackTrace();
         }
-
-        FXMLLoader fxmlLoader = new FXMLLoader(MainApplication.class.getResource("saving.fxml"));
-        Scene scene;
-
-        try {
-            scene = new Scene(fxmlLoader.load(), 600, 400);
-            Stage primaryStage = (Stage) recordingIndicator.getScene().getWindow();
-            primaryStage.setScene(scene);
-        } catch (IOException e) {
-            e.printStackTrace();
-        }
-
     }
 
     private void saveFile() {
