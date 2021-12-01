@@ -51,7 +51,6 @@ public class MainController {
                 line.open(format);
                 line.start();
 
-                // ByteArrayOutputStream out = new ByteArrayOutputStream();
                 byte[] data = new byte[line.getBufferSize() / 5];
                 int numBytesRead;
 
@@ -62,14 +61,6 @@ public class MainController {
                 }
 
                 line.close();
-
-                // AudioInputStream inputStream = new AudioInputStream(
-                // new ByteArrayInputStream(out.toByteArray()),
-                // format,
-                // out.size());
-
-                // AudioSystem.write(inputStream, AudioFileFormat.Type.WAVE,
-                // new File(dir + "/" + fileName + ".wav"));
             } catch (LineUnavailableException e) {
                 System.err.println("Line unavailable");
             }catch (Exception e) {
@@ -84,36 +75,39 @@ public class MainController {
 
     @FXML
     protected void record() {
-        System.out.println("clicked");
+        // System.out.println("clicked");
         recordingIndicator.setText("Recording");
+
         if (fileField.getText().equals("")) {
             fileName = "recording";
         } else {
             fileName = fileField.getText();
         }
+
         fileField.clear();
         isRecording = true;
+        
         t = new Thread(task);
-        System.out.println(t);
+        // System.out.println(t);
         t.start();
 
     }
 
     @FXML
     protected void stopRecording() {
-        // if (t != null) {
         recordingIndicator.setText("Not Recording");
         isRecording = false;
-        // task.cancel(true);
-        // t.interrupt();
-        // }
-        System.out.println(task);
+
+        // System.out.println(task);
+
         try {
             t.join();
         } catch (Exception e) {
             e.printStackTrace();
         }
+
         saveFile();
+
         AudioInputStream inputStream = new AudioInputStream(
                 new ByteArrayInputStream(out.toByteArray()),
                 format,
@@ -123,9 +117,9 @@ public class MainController {
             AudioSystem.write(inputStream, AudioFileFormat.Type.WAVE,
                     new File(dir + "/" + fileName + ".wav"));
         } catch (IOException e) {
-            // TODO Auto-generated catch block
             e.printStackTrace();
         }
+
         FXMLLoader fxmlLoader = new FXMLLoader(MainApplication.class.getResource("saving.fxml"));
         Scene scene;
         
@@ -134,7 +128,6 @@ public class MainController {
             Stage primaryStage = (Stage) recordingIndicator.getScene().getWindow();
             primaryStage.setScene(scene);
         } catch (IOException e) {
-            // TODO Auto-generated catch block
             e.printStackTrace();
         }
 
@@ -143,9 +136,7 @@ public class MainController {
     private void saveFile() {
         Stage primaryStage = (Stage) recordingIndicator.getScene().getWindow();
         DirectoryChooser fileChooser = new DirectoryChooser();
-        // FileChooser.ExtensionFilter extFilter = new FileChooser.ExtensionFilter("WAV
-        // files (.wav)", ".wav");
-        // fileChooser.getExtensionFilters().add(extFilter);
+
         dir = String.valueOf(fileChooser.showDialog(primaryStage));
         System.out.println(dir);
     }
