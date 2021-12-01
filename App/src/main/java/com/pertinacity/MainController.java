@@ -119,7 +119,7 @@ public class MainController {
                     new File(dir + "/" + fileName + ".wav"));
         } catch (IOException e) {
             e.printStackTrace();
-        }ByteArrayOutputStream
+        }
     }
 
     private void saveFile() {
