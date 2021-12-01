@@ -36,11 +36,10 @@ public class MainController {
 
     ByteArrayOutputStream out = new ByteArrayOutputStream();
     AudioFormat format = new AudioFormat(44100, 24, 2, true, true);
-    
+
     Task<Integer> task = new Task<Integer>() {
         @Override
         protected Integer call() {
-            
 
             TargetDataLine line;
             DataLine.Info info = new DataLine.Info(TargetDataLine.class, format);
@@ -63,7 +62,7 @@ public class MainController {
                 line.close();
             } catch (LineUnavailableException e) {
                 System.err.println("Line unavailable");
-            }catch (Exception e) {
+            } catch (Exception e) {
                 e.printStackTrace();
             }
             System.out.println("Done");
@@ -86,7 +85,7 @@ public class MainController {
 
         fileField.clear();
         isRecording = true;
-        
+
         t = new Thread(task);
         // System.out.println(t);
         t.start();
@@ -112,7 +111,7 @@ public class MainController {
                 new ByteArrayInputStream(out.toByteArray()),
                 format,
                 out.size());
-        
+
         try {
             AudioSystem.write(inputStream, AudioFileFormat.Type.WAVE,
                     new File(dir + "/" + fileName + ".wav"));
@@ -122,7 +121,7 @@ public class MainController {
 
         FXMLLoader fxmlLoader = new FXMLLoader(MainApplication.class.getResource("saving.fxml"));
         Scene scene;
-        
+
         try {
             scene = new Scene(fxmlLoader.load(), 600, 400);
             Stage primaryStage = (Stage) recordingIndicator.getScene().getWindow();
