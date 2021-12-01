@@ -42,8 +42,9 @@ public class MainController {
 
     @FXML
     protected void record() {
-        // System.out.println("clicked");
         recordingIndicator.setText("Recording");
+        isRecording = true;
+
 
         if (fileField.getText().equals("")) {
             fileName = "recording";
@@ -51,18 +52,12 @@ public class MainController {
             fileName = fileField.getText();
         }
 
-        fileField.clear();
-        isRecording = true;
-
         if (task.isDone()) {
             task = createAudioTask();
         }
         
         t = new Thread(task);
         t.start();
-        
-        // System.out.println(t);
-
     }
 
     @FXML
@@ -82,6 +77,7 @@ public class MainController {
             e.printStackTrace();
         }
 
+        fileField.clear();
         out = new ByteArrayOutputStream();
     }
 
@@ -102,7 +98,6 @@ public class MainController {
         DirectoryChooser fileChooser = new DirectoryChooser();
 
         dir = String.valueOf(fileChooser.showDialog(primaryStage));
-        // System.out.println(dir);
     }
 
     private Task<Integer> createAudioTask() {
@@ -112,7 +107,6 @@ public class MainController {
                 TargetDataLine line;
                 DataLine.Info info = new DataLine.Info(TargetDataLine.class, format);
     
-                // Obtain and open the line.
                 try {
                     line = (TargetDataLine) AudioSystem.getLine(info);
                     line.open(format);
