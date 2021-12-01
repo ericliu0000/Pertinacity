@@ -1,6 +1,8 @@
 package com.pertinacity;
 
 import javafx.fxml.FXML;
+import javafx.fxml.FXMLLoader;
+import javafx.scene.Scene;
 import javafx.scene.control.Label;
 import javafx.scene.control.TextField;
 import javafx.stage.DirectoryChooser;
@@ -120,6 +122,17 @@ public class MainController {
         try {
             AudioSystem.write(inputStream, AudioFileFormat.Type.WAVE,
                     new File(dir + "/" + fileName + ".wav"));
+        } catch (IOException e) {
+            // TODO Auto-generated catch block
+            e.printStackTrace();
+        }
+        FXMLLoader fxmlLoader = new FXMLLoader(MainApplication.class.getResource("saving.fxml"));
+        Scene scene;
+        
+        try {
+            scene = new Scene(fxmlLoader.load(), 600, 400);
+            Stage primaryStage = (Stage) recordingIndicator.getScene().getWindow();
+            primaryStage.setScene(scene);
         } catch (IOException e) {
             // TODO Auto-generated catch block
             e.printStackTrace();
