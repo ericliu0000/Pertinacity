@@ -54,7 +54,7 @@ public class MainController {
         fileField.clear();
         isRecording = true;
 
-        if (task instanceof Task && task.isDone()) {
+        if (!(task instanceof Task) && task.isDone()) {
             task = new Task<Integer>() {
                 @Override
                 protected Integer call() {
