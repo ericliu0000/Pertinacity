@@ -38,8 +38,6 @@ public class MainController {
     Task<Integer> task = new Task<Integer>() {
         @Override
         protected Integer call() {
-            
-
             TargetDataLine line;
             DataLine.Info info = new DataLine.Info(TargetDataLine.class, format);
 
@@ -49,7 +47,6 @@ public class MainController {
                 line.open(format);
                 line.start();
 
-                // ByteArrayOutputStream out = new ByteArrayOutputStream();
                 byte[] data = new byte[line.getBufferSize() / 5];
                 int numBytesRead;
 
@@ -60,14 +57,6 @@ public class MainController {
                 }
 
                 line.close();
-
-                // AudioInputStream inputStream = new AudioInputStream(
-                // new ByteArrayInputStream(out.toByteArray()),
-                // format,
-                // out.size());
-
-                // AudioSystem.write(inputStream, AudioFileFormat.Type.WAVE,
-                // new File(dir + "/" + fileName + ".wav"));
             } catch (LineUnavailableException e) {
                 System.err.println("Line unavailable");
             }catch (Exception e) {
@@ -82,36 +71,37 @@ public class MainController {
 
     @FXML
     protected void record() {
-        System.out.println("clicked");
+        // System.out.println("clicked");
         recordingIndicator.setText("Recording");
+        
         if (fileField.getText().equals("")) {
             fileName = "recording";
         } else {
             fileName = fileField.getText();
         }
-        fileField.clear();
+
         isRecording = true;
+
         t = new Thread(task);
-        System.out.println(t);
+        // System.out.println(t);
         t.start();
 
     }
 
     @FXML
     protected void stopRecording() {
-        // if (t != null) {
         recordingIndicator.setText("Not Recording");
         isRecording = false;
-        // task.cancel(true);
-        // t.interrupt();
-        // }
-        System.out.println(task);
+
+        // System.out.println(task);
         try {
             t.join();
         } catch (Exception e) {
             e.printStackTrace();
         }
+
         saveFile();
+
         AudioInputStream inputStream = new AudioInputStream(
                 new ByteArrayInputStream(out.toByteArray()),
                 format,
@@ -124,7 +114,7 @@ public class MainController {
             // TODO Auto-generated catch block
             e.printStackTrace();
         }
-
+        fileField.clear();
     }
 
     private void saveFile() {
