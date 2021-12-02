@@ -1,1 +1,4 @@
 .project
+
+test/jdk-with-fx
+test/*.wav
