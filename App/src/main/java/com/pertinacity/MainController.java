@@ -1,6 +1,7 @@
 package com.pertinacity;
 
 import javafx.fxml.FXML;
+
 import javafx.scene.control.Label;
 import javafx.scene.control.TextField;
 import javafx.stage.DirectoryChooser;
@@ -28,6 +29,8 @@ public class MainController {
     public Label recordingIndicator = new Label();
     private TextField fileField = new TextField();
 
+    // create a choiceBox
+
     private boolean isRecording = false;
     private Optional<File> dir = Optional.empty();
     private String fileName;
@@ -40,6 +43,7 @@ public class MainController {
 
     @FXML
     protected void record() {
+
         recordingIndicator.setText("Recording");
         isRecording = true;
 
@@ -71,12 +75,12 @@ public class MainController {
             if (dir.isPresent()) {
                 String filePath = Paths.get(dir.get().toString(), (fileName + ".wav")).toString();
                 AudioSystem.write(inputStream, AudioFileFormat.Type.WAVE,
-                    new File(filePath));
+                        new File(filePath));
 
                 recordingIndicator.setText(String.format("Not Recording", out.size(), filePath));
             } else {
                 AudioSystem.write(inputStream, AudioFileFormat.Type.WAVE,
-                    new File(fileName + ".wav"));
+                        new File(fileName + ".wav"));
 
                 recordingIndicator.setText(String.format("Not Recording", out.size()));
             }
