@@ -27,7 +27,7 @@ import javafx.concurrent.Task;
 public class MainController {
     public Label recordingIndicator = new Label();
     private TextField fileField = new TextField();
-    
+
     private boolean isRecording = false;
     private Optional<File> dir = Optional.empty();
     private String fileName;
@@ -69,16 +69,16 @@ public class MainController {
 
         try {
             if (dir.isPresent()) {
+                String filePath = Paths.get(dir.get().toString(), (fileName + ".wav")).toString();
                 AudioSystem.write(inputStream, AudioFileFormat.Type.WAVE,
-                    new File(Paths.get(dir.get().toString(), 
-                            (fileName + ".wav")).toString()));
+                    new File(filePath));
 
-                recordingIndicator.setText(String.format("Saved %d byte file to %s", out.size(), out));
+                recordingIndicator.setText(String.format("Not Recording", out.size(), filePath));
             } else {
                 AudioSystem.write(inputStream, AudioFileFormat.Type.WAVE,
                     new File(fileName + ".wav"));
 
-                recordingIndicator.setText(String.format("Saved %d byte file to current working directory", out.size()));
+                recordingIndicator.setText(String.format("Not Recording", out.size()));
             }
         } catch (IOException e) {
             e.printStackTrace();
@@ -90,7 +90,7 @@ public class MainController {
 
     @FXML
     protected void pause() {
-        recordingIndicator.setText(String.format("Paused, %d bytes recorded so far", out.size()));
+        recordingIndicator.setText("Recording Paused");
         isRecording = false;
 
         try {
