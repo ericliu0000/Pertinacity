@@ -10,6 +10,9 @@ import java.io.ByteArrayInputStream;
 import java.io.ByteArrayOutputStream;
 import java.io.File;
 import java.io.IOException;
+import java.nio.file.Paths;
+import java.time.LocalDateTime;
+import java.util.Optional;
 
 import javax.sound.sampled.AudioFileFormat;
 import javax.sound.sampled.AudioFormat;
@@ -26,7 +29,7 @@ public class MainController {
     private TextField fileField = new TextField();
     
     private boolean isRecording = false;
-    private String dir;
+    private Optional<File> dir = Optional.empty();
     private String fileName;
 
     private ByteArrayOutputStream out = new ByteArrayOutputStream();
@@ -41,7 +44,7 @@ public class MainController {
         isRecording = true;
 
         if (fileField.getText().equals("")) {
-            fileName = "recording";
+            fileName = LocalDateTime.now().toString();
         } else {
             fileName = fileField.getText();
         }
@@ -65,8 +68,18 @@ public class MainController {
                 out.size());
 
         try {
-            AudioSystem.write(inputStream, AudioFileFormat.Type.WAVE,
-                    new File(dir + "/" + fileName + ".wav"));
+            if (dir.isPresent()) {
+                String out = Paths.get(dir.get().toString(), (fileName + ".wav")).toString();
+                AudioSystem.write(inputStream, AudioFileFormat.Type.WAVE,
+                    new File(out));
+
+                recordingIndicator.setText(String.format("Saved file to %s", out));
+            } else {
+                AudioSystem.write(inputStream, AudioFileFormat.Type.WAVE,
+                    new File(fileName + ".wav"));
+
+                recordingIndicator.setText(String.format("Saved file to current working directory"));
+            }
         } catch (IOException e) {
             e.printStackTrace();
         }
@@ -91,7 +104,7 @@ public class MainController {
         Stage primaryStage = (Stage) recordingIndicator.getScene().getWindow();
         DirectoryChooser fileChooser = new DirectoryChooser();
 
-        dir = String.valueOf(fileChooser.showDialog(primaryStage));
+        dir = Optional.ofNullable(fileChooser.showDialog(primaryStage));
     }
 
     private Task<Integer> createAudioTask() {
