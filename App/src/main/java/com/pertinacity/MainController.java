@@ -69,16 +69,18 @@ public class MainController {
 
         try {
             if (dir.isPresent()) {
-                String out = Paths.get(dir.get().toString(), (fileName + ".wav")).toString();
                 AudioSystem.write(inputStream, AudioFileFormat.Type.WAVE,
-                    new File(out));
+                    new File(Paths.get(
+                            dir.get().toString(), 
+                            (fileName + ".wav"))
+                        .toString()));
 
-                recordingIndicator.setText(String.format("Saved file to %s", out));
+                recordingIndicator.setText(String.format("Saved %d byte file to %s", out.size(), out));
             } else {
                 AudioSystem.write(inputStream, AudioFileFormat.Type.WAVE,
                     new File(fileName + ".wav"));
 
-                recordingIndicator.setText(String.format("Saved file to current working directory"));
+                recordingIndicator.setText(String.format("Saved %d byte file to current working directory", out.size()));
             }
         } catch (IOException e) {
             e.printStackTrace();
@@ -90,7 +92,7 @@ public class MainController {
 
     @FXML
     protected void pause() {
-        recordingIndicator.setText(String.format("Stopped, %d bytes recorded", out.size()));
+        recordingIndicator.setText(String.format("Paused, %d bytes recorded so far", out.size()));
         isRecording = false;
 
         try {
@@ -134,7 +136,7 @@ public class MainController {
                 } catch (Exception e) {
                     e.printStackTrace();
                 }
-                System.out.println("Done");
+                // System.out.println("Done");
                 return 0;
             }
         };
