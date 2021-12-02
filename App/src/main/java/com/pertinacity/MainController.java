@@ -70,10 +70,8 @@ public class MainController {
         try {
             if (dir.isPresent()) {
                 AudioSystem.write(inputStream, AudioFileFormat.Type.WAVE,
-                    new File(Paths.get(
-                            dir.get().toString(), 
-                            (fileName + ".wav"))
-                        .toString()));
+                    new File(Paths.get(dir.get().toString(), 
+                            (fileName + ".wav")).toString()));
 
                 recordingIndicator.setText(String.format("Saved %d byte file to %s", out.size(), out));
             } else {
