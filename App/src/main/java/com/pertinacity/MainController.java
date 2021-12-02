@@ -22,25 +22,23 @@ import javax.sound.sampled.TargetDataLine;
 import javafx.concurrent.Task;
 
 public class MainController {
-    boolean isRecording = false;
-    String dir;
-    File file;
-
     public Label recordingIndicator = new Label();
-    public TextField fileField = new TextField();
+    private TextField fileField = new TextField();
+    
+    private boolean isRecording = false;
+    private String dir;
     private String fileName;
 
-    ByteArrayOutputStream out = new ByteArrayOutputStream();
-    AudioFormat format = new AudioFormat(44100, 24, 2, true, true);
+    private ByteArrayOutputStream out = new ByteArrayOutputStream();
+    private AudioFormat format = new AudioFormat(44100, 24, 2, true, true);
 
-    Task<Integer> task = createAudioTask();
-    Thread t;
+    private Task<Integer> task = createAudioTask();
+    private Thread t;
 
     @FXML
     protected void record() {
         recordingIndicator.setText("Recording");
         isRecording = true;
-
 
         if (fileField.getText().equals("")) {
             fileName = "recording";
@@ -51,7 +49,7 @@ public class MainController {
         if (task.isDone()) {
             task = createAudioTask();
         }
-        
+
         t = new Thread(task);
         t.start();
     }
@@ -102,21 +100,21 @@ public class MainController {
             protected Integer call() {
                 TargetDataLine line;
                 DataLine.Info info = new DataLine.Info(TargetDataLine.class, format);
-    
+
                 try {
                     line = (TargetDataLine) AudioSystem.getLine(info);
                     line.open(format);
                     line.start();
-    
+
                     byte[] data = new byte[line.getBufferSize() / 5];
                     int numBytesRead;
-    
+
                     while (isRecording) {
                         numBytesRead = line.read(data, 0, data.length);
                         System.out.println(String.format("Recording..."));
                         out.write(data, 0, numBytesRead);
                     }
-    
+
                     line.close();
                 } catch (LineUnavailableException e) {
                     System.err.println("Line unavailable");
@@ -126,6 +124,6 @@ public class MainController {
                 System.out.println("Done");
                 return 0;
             }
-        };    
+        };
     }
 }
