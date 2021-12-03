@@ -13,6 +13,8 @@
 * Indication of state of application (Recording, Not Recording, Recording Paused)
 
 ## How To Run
+* Download the .jar file
+* Double click
 
 ## How to Build From Source
 * Navigate to the /App Directory
