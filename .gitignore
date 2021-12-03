@@ -1,4 +1,6 @@
 .project
 
-test/jdk-with-fx
 test/*.wav
+test/*.jar
+test/*.class
+test/*.zip
