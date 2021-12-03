@@ -20,8 +20,8 @@
 * If that does not work, navigate to the director and enter
 > java -jar RunPertinacity.jar
 * If that does not work, I'm afraid you are on your own
-### For Windows and MacOS
-[For Windows and MacOS](https://ubuntu.com/download/desktop)
+### [For Windows and MacOS](https://ubuntu.com/download/desktop)
+
 
 ## How to Build From Source
 * Navigate to the /App Directory
