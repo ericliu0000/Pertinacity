@@ -13,12 +13,15 @@
 * Indication of state of application (Recording, Not Recording, Recording Paused)
 
 ## How To Run
+### On Linux Systems
 * Download latest Pertinacity.zip from the releases tab
 * Extract the folder contents
 * Double click on RunPertinacity.jar
 * If that does not work, navigate to the director and enter
 > java -jar RunPertinacity.jar
 * If that does not work, I'm afraid you are on your own
+### For Windows and MacOS
+[For Windows and MacOS](https://ubuntu.com/download/desktop)
 
 ## How to Build From Source
 * Navigate to the /App Directory
