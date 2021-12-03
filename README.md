@@ -13,8 +13,12 @@
 * Indication of state of application (Recording, Not Recording, Recording Paused)
 
 ## How To Run
-* Download the .jar file
-* Double click
+* Download latest Pertinacity.zip from the releases tab
+* Extract the folder contents
+* Double click on RunPertinacity.jar
+* If that does not work, navigate to the director and enter
+> java -jar RunPertinacity.jar
+* If that does not work, I'm afraid you are on your own
 
 ## How to Build From Source
 * Navigate to the /App Directory
