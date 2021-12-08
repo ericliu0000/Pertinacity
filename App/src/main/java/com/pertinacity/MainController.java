@@ -27,7 +27,10 @@ import javafx.concurrent.Task;
 
 public class MainController {
     // Create labels from FXML
+    @FXML
     public Label recordingIndicator = new Label();
+
+    @FXML
     private TextField fileField = new TextField();
 
     // Create objects for directory and file selection
@@ -53,14 +56,6 @@ public class MainController {
         recordingIndicator.setText("Recording");
         isRecording = true;
 
-        // Update the file name based off of the text box
-        // If there is no file name selected, use the current date and time
-        if (fileField.getText().equals("")) {
-            fileName = LocalDateTime.now().toString();
-        } else {
-            fileName = fileField.getText();
-        }
-
         // If the thread is not running, create a new thread
         // This will occur if the user is starting a new recording, rather than resuming from pause
         if (task.isDone()) {
@@ -83,6 +78,14 @@ public class MainController {
         // Halt the task and thread, and prompt user for directory selection
         pause();
         chooseDirectory();
+
+        // Update the file name based off of the text box
+        // If there is no file name selected, use the current date and time
+        if (fileField.getText().equals("")) {
+            fileName = LocalDateTime.now().toString();
+        } else {
+            fileName = fileField.getText();
+        }
 
         // Create audio input stream from the prewritten audio data
         AudioInputStream inputStream = new AudioInputStream(
@@ -121,6 +124,11 @@ public class MainController {
      */
     @FXML
     protected void pause() {
+        // Reject the task if it does not exist
+        if (!(t instanceof Thread)) {
+            return;
+        }
+
         // Set flags for user indication and task cancellation
         recordingIndicator.setText("Recording Paused");
         isRecording = false;
