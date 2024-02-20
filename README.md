@@ -12,6 +12,9 @@
 * Picking file save location
 * Indication of state of application (Recording, Not Recording, Recording Paused)
 
+## Installation
+Coming soon!
+
 ## How to Build From Source
 Gradle is required in order to run this program from source. 
 * Navigate to the /App Directory
